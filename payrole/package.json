@@ -1,0 +1,14 @@
+{
+  "name": "ethanoz-payroll",
+  "version": "1.0.0",
+  "description": "Gusto interview prompt - recursive payroll app",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "jest",
+    "start": "ts-node main.ts"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "jest": "24.8.0"
+  }
+}
