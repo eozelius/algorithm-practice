@@ -2,7 +2,7 @@
 
 Interview practice and other mind bending exercises.  Most come from [leetcode](https://leetcode.com), but there are a couple from [codewars](https://codewars.com).
 
-### javascript
+### javascript/typescript
 - binSum
 - isomorphic-strings
 - move-zeros
