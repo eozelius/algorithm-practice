@@ -15,6 +15,7 @@ Interview practice and other mind bending exercises.  Most come from [leetcode](
 
 ### python
 - roman-numeral
+- 2265. Count Nodes Equal to Average of Subtree
 
 ### SQL
 tbd
