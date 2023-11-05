@@ -34,13 +34,13 @@ def search_tree_for_value(root, num):
     if root.val == num:
         return True
 
-    if root.left:
-        if search_tree_for_value(root.left, num):
-            return True
+    # if root.left:
+    #     if search_tree_for_value(root.left, num):
+    #         return True
 
-    if root.right:
-        if search_tree_for_value(root.right, num):
-            return True
+    # if root.right:
+    #     if search_tree_for_value(root.right, num):
+    #         return True
 
     # traversal complete.
     return False
@@ -78,29 +78,21 @@ class Solution:
 
 # tree_root = TreeNode(4, node2, node5)
 
-
-
-
 # [0,4,2,3,null,4]
 
 #             0 (a)
-#         4 (b)       2 (d)
-#     3 (c)              4 (e)
+#         4 (b)   2 (d)
+#     3 (c)      4 (e)
 
-# For the node with value 4: The average of its subtree is (4 + 8 + 5 + 0 + 1 + 6) / 6 = 24 / 6 = 4.
-#   
-
-
-# [4,8,5,0,1,null,6]
-
-#             4
-#         8       5
-#       0   1    6
-
+# For the A node with value 0: The average of its subtree is (0 + 4 + 3 + 2 + 4) / 5 = 13 / 5 = 2; >>>>> 2 is found (d) - 
+# For the B node with value 4: The average of its subtree is (4 + 3) / 2 = 7 / 2 = 3; >>>>> 3 is found (c) - 
+# For the C node with value 3: The average of its subtree is (3) / 1 = 3; >>>>> 3 is found (c) - 
+# For the D node with value 2: The average of its subtree is (2 + 4) / 2 = 6 / 2 = 3; >>>>> 3 is NOT found - 
+# 4 is found (e) 4 For the E node with value 4: The average of its subtree is (4) / 1 = 4
 
 
 node_e = TreeNode(4, None, None, name='E')
-node_d = TreeNode(2, None, node_e, name='D')
+node_d = TreeNode(2, node_e, None, name='D')
 node_c = TreeNode(3, None, None, name='C')
 node_b = TreeNode(4, node_c, None, name='B')
 node_a = TreeNode(0, node_b, node_d, name='A')
