@@ -38,138 +38,123 @@ Output: 3
 
  */
 var numIslands = function(grid) {
-  const islands = 0;
+  let islands = 0;
 
   // nested for loop to iter each cell
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       // is current cell land?
-      const currentCell = grid[i][j]
-      const currentCellIsLand = currentCell === '1'
+      const isLand = grid[i][j] === '1';
 
-      console.log(`## [ ${i}, ${j}] #####`)
-      
       // if yes -> check top, right, bot, left neighbors to see if there is land
-      if (currentCellIsLand) {
-        const neighbors = checkNeighbors([i, j], grid)
+      if (isLand) {
+        console.log(`## [ ${i}, ${j}] LAND HO!!!!!!!!! #####`)
+        let hasLandNeighbor = false;
+                
+        // UP
+        if (i > 0) {
+          console.log('chekcing UP')
+          const cellAbove = grid[i - 1][j]
+          if (cellAbove === '1') {
+            hasLandNeighbor = true;
+          }
+        }
+        
+        // RIGHT
+        if(j < grid[0].length) {
+          console.log('chekcing RIGHT')
 
-        let hasLandNeighbors = false;
-        for (const key in neighbors) {
-          const direction = neighbors[key];
-          if (direction) {
-            hasLandNeighbors = true
+          const cellRight = grid[i][j + 1]
+          if (cellRight === '1') {
+            hasLandNeighbor = true;
           }
         }
 
-        // if a neighbor is land, then -> check T,R,B,L nieghbors of THAT cell to see if there is land
-        while (hasLandNeighbors) {
-          console.log(`[ Main ] while() i,j => `, [i, j])
-          hasLandNeighbors = false
+        // LEFT
+        if (j > 0) {
+          console.log('chekcing LEFT')
 
-          for (const key in neighbors) {
-            const direction = neighbors[key];
-            if (direction) {
-              if (key === 'UP') {
-                console.log('chekcing to the UP')
-                const adjacentCellHasANeighbor = checkNeighbors([i - 1,j], grid, [ 'RIGHT', 'UP', 'LEFT'])
-                if (adjacentCellHasANeighbor) {
-                  // continue while
-                  hasLandNeighbor = true;
-                }
-              }
-
-              if (key === 'RIGHT') {
-                console.log('chekcing to the RIGHT')
-                const adjacentCellHasANeighbor = checkNeighbors([i, j + 1], grid, [ 'RIGHT', 'BOTTOM', 'UP'])
-                if (adjacentCellHasANeighbor) {
-                  // continue while
-                  hasLandNeighbor = true;
-                }
-              }
-
-              if (key === 'LEFT') {
-                console.log('chekcing to the LEFT')
-                const adjacentCellHasANeighbor = checkNeighbors([i, j - 1], grid, [ 'LEFT', 'BOTTOM', 'UP'])
-                if (adjacentCellHasANeighbor) {
-                  // continue while
-                  hasLandNeighbor = true;
-                }
-              }
-
-              if (key === 'BOTTOM') {
-                console.log('chekcing to the BOTTOM')
-                const adjacentCellHasANeighbor = checkNeighbors([i + 1, j], grid, [ 'LEFT', 'BOTTOM', 'RIGHT'])
-                if (adjacentCellHasANeighbor) {
-                  // continue while
-                  hasLandNeighbor = true;
-                }
-              }
-            }
+          const cellLeft = grid[i][j - 1]
+          if (cellLeft === '1') {
+            hasLandNeighbor = true;
           }
         }
 
-        //    if a neighbor is not land, then I know that I can backtrack.  If there are no more neighbors to check, then we have found a complete island
+        // BOTTOM
+        if (i < grid.length) {
+          console.log('chekcing BOTTOM')
+          const cellDown = grid[i + 1][j]
+          if (cellDown === '1') {
+            hasLandNeighbor = true;
+          }
+        }
+
+        console.log(`hasLandNeighbor => `, hasLandNeighbor)
+
+
+        if (!hasLandNeighbor) {
+          islands++
+        }
       }
-    }    
+    }
   }
-
 
   return islands;
 };
 
 
-var checkNeighbors = (cell, grid, directionsToCheck = [ 'UP', 'RIGHT', 'BOTTOM', 'LEFT' ]) => {
-  const [row, col] = cell;
-  console.log(`[ main ] checkNeighbors() [ ${row}, ${col} ]`)
+// var checkNeighbors = (cell, grid, directionsToCheck = [ 'UP', 'RIGHT', 'BOTTOM', 'LEFT' ]) => {
+//   const [row, col] = cell;
+//   console.log(`[ main ] checkNeighbors() [ ${row}, ${col} ]`)
 
-  const neighbors = {
-    UP: false,
-    DOWN: false,
-    RIGHT: false,
-    LEFT: false,
-  }
+//   const neighbors = {
+//     UP: false,
+//     DOWN: false,
+//     RIGHT: false,
+//     LEFT: false,
+//   }
   
-  // UP
-  // Check row must be at least 2nd row, for top be checked.
-  if (row > 0 && directionsToCheck.includes('UP')) {
-    const cellAbove = grid[row - 1][col]
-    if (cellAbove === '1') {
-      neighbors['UP'] = true
-    }
-  }
+//   // UP
+//   // Check row must be at least 2nd row, for top be checked.
+//   if (row > 0 && directionsToCheck.includes('UP')) {
+//     const cellAbove = grid[row - 1][col]
+//     if (cellAbove === '1') {
+//       neighbors['UP'] = true
+//     }
+//   }
 
-  // RIGHT
-  // Check col must be at most 2nd to last col
-  if (col < grid[0].length && directionsToCheck.includes('RIGHT')) {
-    const cellRight = grid[row][col + 1]
-    if (cellRight === '1') {
-      neighbors['RIGHT'] = true
-    }
-  }
+//   // RIGHT
+//   // Check col must be at most 2nd to last col
+//   if (col < grid[0].length && directionsToCheck.includes('RIGHT')) {
+//     const cellRight = grid[row][col + 1]
+//     if (cellRight === '1') {
+//       neighbors['RIGHT'] = true
+//     }
+//   }
 
-  // DOWN
-  // Check row must be at most 2nd to last row
-  if (row < grid.length && directionsToCheck.includes('DOWN')) {
-    const cellDown = grid[row + 1][col]
-    if (cellDown === '1') {
-      neighbors['DOWN'] = true
-    }
-  }
+//   // DOWN
+//   // Check row must be at most 2nd to last row
+//   if (row < grid.length && directionsToCheck.includes('DOWN')) {
+//     const cellDown = grid[row + 1][col]
+//     if (cellDown === '1') {
+//       neighbors['DOWN'] = true
+//     }
+//   }
 
-  // LEFT
-  // Check row must be at most 2nd to last row
-  if (col > 0 && directionsToCheck.includes('LEFT')) {
-    const cellLeft = grid[row][col - 1]
-    if (cellLeft === '1') {
-      neighbors['LEFT'] = true
-    }
-  }
+//   // LEFT
+//   // Check row must be at most 2nd to last row
+//   if (col > 0 && directionsToCheck.includes('LEFT')) {
+//     const cellLeft = grid[row][col - 1]
+//     if (cellLeft === '1') {
+//       neighbors['LEFT'] = true
+//     }
+//   }
 
-  console.log(`[ Mian ] checkNeighbors() neighbors => `, neighbors)
+//   console.log(`[ Mian ] checkNeighbors() neighbors => `, neighbors)
 
-  return neighbors
+//   return neighbors
   
-}
+// }
 
 
 const ex1 = [
