@@ -4,9 +4,9 @@ const traverseNeighbors = (cell, grid, directionsToCheck = [], map) => {
   console.log(`   >>>> [ traverseNeighbors ] => [ ${row}, ${col} ]`)
 
   // UP
-  if (row > 0 && directionsToCheck.includes('UP')) {
+  if (row > 0 && directionsToCheck.includes('UP')) {    
     if (grid[row - 1][col] === '1' && map[row - 1][col].traversed === false) {
-      console.log(`         >>>> [ traverseNeighbors ] UP!! invoking traverserNeighbors for cell: [ ${row - 1 }, ${col} ]`)
+      console.log(`         >>>> [ traverseNeighbors() ] [${row}, ${col}] UP!! invoking traverserNeighbors for cell: [ ${row - 1 }, ${col} ]`)
       map[row - 1][col].traversed = true;
       traverseNeighbors([row - 1, col], grid, ['UP', 'RIGHT', 'LEFT'], map)
     }
@@ -15,7 +15,7 @@ const traverseNeighbors = (cell, grid, directionsToCheck = [], map) => {
   // DOWN
   if (row < grid.length - 1 && directionsToCheck.includes('DOWN')) {
     if (grid[row + 1][col] === '1' && map[row + 1][col].traversed === false) {
-      console.log(`         >>>> [ traverseNeighbors ] DOWN!! invoking traverserNeighbors for cell: [ ${row + 1}, ${col} ]`)
+      console.log(`         >>>> [ traverseNeighbors() ] [${row}, ${col}] DOWN!! invoking traverserNeighbors for cell: [ ${row + 1}, ${col} ]`)
       map[row + 1][col].traversed = true
       traverseNeighbors([row + 1, col], grid, ['DOWN', 'RIGHT', 'LEFT'], map)
     }
@@ -24,7 +24,7 @@ const traverseNeighbors = (cell, grid, directionsToCheck = [], map) => {
   // RIGHT
   if (col < grid[0].length && directionsToCheck.includes('RIGHT')) {
     if (grid[row][col + 1] === '1' && map[row][col + 1].traversed === false) {
-      console.log(`         >>>> [ traverseNeighbors ] RIGHT!! invoking traverserNeighbors for cell: [ ${row}, ${col + 1} ]`)
+      console.log(`         >>>> [ traverseNeighbors() ] [${row}, ${col}] RIGHT!! invoking traverserNeighbors for cell: [ ${row}, ${col + 1} ]`)
       map[row][col + 1].traversed = true
       traverseNeighbors([row, col + 1], grid, ['DOWN', 'RIGHT', 'UP'], map)
     }
@@ -33,11 +33,13 @@ const traverseNeighbors = (cell, grid, directionsToCheck = [], map) => {
   // LEFT
   if (col > 0 && directionsToCheck.includes('LEFT') ) {
     if (grid[row][col - 1] === '1' && map[row][col - 1].traversed === false) {
-      console.log(`         >>>> [ traverseNeighbors ] LEFT!! invoking traverserNeighbors for cell: [ ${row}, ${col - 1} ]`)
+      console.log(`         >>>> [ traverseNeighbors() ] [${row}, ${col}] LEFT!! invoking traverserNeighbors for cell: [ ${row}, ${col - 1} ]`)
       map[row][col - 1].traversed = true
-      traverseNeighbors([row, col - 1], grid, ['DOWN', 'RIGHT', 'LEFT'])
+      traverseNeighbors([row, col - 1], grid, ['UP', 'DOWN','LEFT'], map)
     }
   }
+
+  console.log(`             >>>> [ traverseNeighbors ] [ ${row}, ${col} ] BackTrack! => `)
 
 }
 
@@ -48,9 +50,6 @@ const traverseNeighbors = (cell, grid, directionsToCheck = [], map) => {
  * 
  */
 var numIslands = function(grid) {
-  console.log(`###### grid ######`)
-  console.log(grid)
-  
   let islands = 0;
 
   const map = []
@@ -95,22 +94,48 @@ var numIslands = function(grid) {
   return islands;
 };
 
-const ex1 = [
-  [ '1', '1', '0', '0' ],
-  [ '1', '1', '0', '0' ],
-  [ '0', '0', '1', '1' ],
-  [ '0', '1', '0', '1' ],
-  [ '1', '0', '0', '0' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
-  [ '0', '0', '0', '1' ],
+// const ex1 = [
+//   [ '1', '1', '0', '0' ],
+//   [ '1', '1', '0', '0' ],
+//   [ '0', '0', '1', '1' ],
+//   [ '0', '1', '0', '1' ],
+//   [ '1', '0', '0', '0' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+//   [ '0', '0', '0', '1' ],
+// ]
+
+// const ex2 = [
+//   ["1","1","1"],
+//   ["1","0","1"],
+//   ["1","1","1"]
+// ]
+
+// const r1 = numIslands(ex1)
+// console.log(`r1 => `, r1)
+
+// const r2 = numIslands(ex2)
+// console.log(`r2 => `, r2)
+
+
+const ex3 = [
+  ["1","1","1","1","1","0","1","1","1","1"],
+  ["1","0","1","0","1","1","1","1","1","1"],
+  ["0","1","1","1","0","1","1","1","1","1"],
+  ["1","1","0","1","1","0","0","0","0","1"],
+  ["1","0","1","0","1","0","0","1","0","1"],
+  ["1","0","0","1","1","1","0","1","0","0"],
+  ["0","0","1","0","0","1","1","1","1","0"],
+  ["1","0","1","1","1","0","0","1","1","1"],
+  ["1","1","1","1","1","1","1","1","0","1"],
+  ["1","0","1","1","1","1","1","1","1","0"]
 ]
 
-const r1 = numIslands(ex1)
-console.log(`r1 => `, r1)
+const r3 = numIslands(ex3)
+console.log(`r3 => `, r3)
